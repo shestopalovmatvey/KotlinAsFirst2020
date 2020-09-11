@@ -81,9 +81,10 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
-    val x1 = (sagenes * 48 * 4.445) + (arshins * 16 * 4.445) + (vershoks * 4.445)
+    val x1 = ((sagenes * 48 * 4.445) + (arshins * 16 * 4.445) + (vershoks * 4.445)) / 100
     return x1
 }
+
 /**
  * Тривиальная (1 балл)
  *
@@ -113,7 +114,7 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
 fun thirdDigit(number: Int): Int {
-    val x1 = number % 1000
+    val x1 = (number % 1000) / 100
     return x1
 }
 
@@ -136,8 +137,8 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Сколько денег будет на счету через 3 года (с учётом сложных процентов)?
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
-fun accountInThreeYears(initial: Int, percent: Int): Int {
-    val x1 = (percent / 100) + 1
+fun accountInThreeYears(initial: Int, percent: Int): Double {
+    val x1 = (percent * 0.01) + 1
     val x2 = initial * (x1 * x1 * x1)
     return x2
 }
