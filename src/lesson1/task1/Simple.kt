@@ -66,10 +66,7 @@ fun main() {
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  */
 fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
-    val x1 = hours * 60 * 60
-    val x2 = minutes * 60
-    val x3 = x1 + x2 + seconds
-    return x3
+    return (hours * 60 * 60) + (minutes * 60) + seconds
 }
 
 
@@ -92,7 +89,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
 fun angleInRadian(deg: Int, min: Int, sec: Int): Double {
-    val x1 = ((deg * PI) / 180) + ((min * PI) / 180 * 60) + ((sec * PI) / 180 * 60 * 60)
+    val x1 = ((deg + (min + sec/60)/60)* PI) / 180
     return x1
 }
 
