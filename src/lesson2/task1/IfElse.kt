@@ -3,6 +3,7 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import lesson1.task1.sqr
 import kotlin.math.max
 import kotlin.math.sqrt
 
@@ -103,7 +104,12 @@ fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
-): Int = TODO()
+): Int{
+    return if (kingX!=rookX1 && kingY!=rookY1 && kingX!=rookX2 && kingY!=rookY2) 0
+    else if ((kingX==rookX1 || kingY==rookY1) && (kingX!=rookX2 && kingY!=rookY2)) 1
+    else if ((kingX==rookX2 || kingY==rookY2) && (kingX!=rookX1 && kingY!=rookY1)) 2
+    else (3)
+}
 
 /**
  * Простая (2 балла)
@@ -139,15 +145,13 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int{
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     return when{
-        b > c -> b - c
-        d > a -> d - a
-        a > c && d > b -> d - b
-        a > c && b > d -> d-a
-        a == c && b == d -> a + b
-        a == c && b > d -> c + d
-        a == c && d > b -> a + b
+        b>a && b==c && d>b -> 0
+        a>c && b>a && d>b -> b-a
+        c>a && b>c && d>b -> b-c
+        a>c && d>a && b>d -> d-a
+        c>a && d>c && b>d -> d-c
         else -> -1
     }
 }
