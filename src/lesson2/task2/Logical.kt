@@ -33,7 +33,12 @@ fun isNumberHappy(number: Int): Boolean {
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  * Считать, что ферзи не могут загораживать друг друга.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
+    return when{
+        (x1 == x2) || (y1 == y2) || ((x1 - x2) * (x1 - x2) == (y1 - y2) * (y1 - y2)) -> true
+        else -> false
+    }
+}
 
 
 /**
