@@ -89,7 +89,12 @@ fun timeForHalfWay(
     t1: Double, v1: Double,
     t2: Double, v2: Double,
     t3: Double, v3: Double
-): Double = TODO()
+): Double {
+    val s = (t1*v1 + t2*v2 + t3*v3)/ 2.0
+    return if (t1*v1>=s) s/v1
+    else if (t1*v1 + t2*v2>=s) t1+(s-v1*t1)/v2
+    else t1+t2+(s-v1*t1-v2*t2) / v3
+}
 
 /**
  * Простая (2 балла)
@@ -125,7 +130,14 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int = TODO()
+): Int {
+    val x1 = (kingX-bishopX)*(kingX-bishopX) == (kingY-bishopY)*(kingY-bishopY)
+    val x2 = ((kingX == rookX) || (kingY == rookY))
+    return if ((x1 && (kingX != rookX)) && (kingY != rookY)) 2
+    else if ((kingX - bishopX)*(kingX - bishopX) != (kingY - bishopY)*(kingY - bishopY) && x2) 1
+    else if (x1 && x2) 3
+    else 0
+}
 
 /**
  * Простая (2 балла)
