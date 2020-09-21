@@ -71,8 +71,8 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String =
     if (age % 10 == 1 && age != 11 && age != 111) "$age год"
-else if ((age % 10 == 2 || age % 10 == 3 || age % 10 == 4) && age % 100 != 12 && age % 100 != 13 && age % 100 != 14) "$age года"
-else "$age лет"
+    else if ((age % 10 == 2 || age % 10 == 3 || age % 10 == 4) && age % 100 != 12 && age % 100 != 13 && age % 100 != 14) "$age года"
+    else "$age лет"
 
 /**
  * Простая (2 балла)
@@ -107,9 +107,9 @@ fun whichRookThreatens(
     rookX2: Int, rookY2: Int
 ): Int =
     if (kingX != rookX1 && kingY != rookY1 && kingX != rookX2 && kingY != rookY2) 0
-else if ((kingX == rookX1 || kingY == rookY1) && (kingX != rookX2 && kingY != rookY2)) 1
-else if ((kingX == rookX2 || kingY == rookY2) && (kingX != rookX1 && kingY != rookY1)) 2
-else (3)
+    else if ((kingX == rookX1 || kingY == rookY1) && (kingX != rookX2 && kingY != rookY2)) 1
+    else if ((kingX == rookX2 || kingY == rookY2) && (kingX != rookX1 && kingY != rookY1)) 2
+    else (3)
 
 
 /**
@@ -153,15 +153,13 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int =
-    when {
-        b > a && b == c && d > b -> 0
-        a > c && b > a && d > b -> b - a
-        c > a && b > c && d > b -> b - c
-        a > c && d > a && b > d -> d - a
-        c > a && d > c && b > d -> d - c
-        a == b && a == c && a == d -> a
-        else -> -1
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    if (b < c || d < a) return -1
+    if (a > c) {
+        return if (b > d) d - a else b - a
+    } else {
+        return if (b > d) d - c else b - c
     }
+}
 
 
