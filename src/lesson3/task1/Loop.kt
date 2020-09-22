@@ -2,6 +2,7 @@
 
 package lesson3.task1
 
+import kotlin.math.PI
 import kotlin.math.sqrt
 
 // Урок 3: циклы
@@ -190,13 +191,13 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  */
 fun revert(n: Int): Int {
     var n2 = 0
-    var d = 0
+    var digit = 0
     var number = n
     while (number > 0) {
-        d = number % 10
+        digit = number % 10
         number /= 10
         n2 *= 10
-        n2 += d
+        n2 += digit
     }
     return n2
 }
@@ -253,7 +254,20 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    val value = x % (2 * PI)
+    var result = 0.0
+    var member = 1.0
+    var pow = 0
+    var sign = 1
+    while (Math.abs(member) - eps > 0) {
+        result += member
+        pow += 2
+        sign *= -1
+        member = sign * Math.pow(value, pow.toDouble()) / factorial(pow)
+    }
+    return result
+}
 
 /**
  * Сложная (4 балла)
