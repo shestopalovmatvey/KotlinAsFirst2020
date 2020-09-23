@@ -3,6 +3,7 @@
 package lesson3.task1
 
 import kotlin.math.PI
+import kotlin.math.abs
 import kotlin.math.sqrt
 
 // Урок 3: циклы
@@ -76,13 +77,10 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var number = n
     var s = 0
-    if (n == 0) {
-        s += 1
-    }
-    while (number > 0) {
+    do {
         number /= 10
-        s += 1
-    }
+        s++
+    } while (abs(number) > 0)
     return s
 }
 
@@ -110,10 +108,9 @@ fun fib(n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    val number = n
     var i = 2
-    while (number >= i) {
-        if (number % i == 0) {
+    while (n >= i) {
+        if (n % i == 0) {
             return i
         }
         i++
@@ -243,7 +240,21 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    val value = x % (2 * PI)
+    var result = 0.0
+    var member = value
+    var pow = 1
+    var sign = 1
+    while (Math.abs(member) - eps > 0) {
+        result += member
+        pow += 2
+        sign *= -1
+        member = sign * Math.pow(value, pow.toDouble()) / factorial(pow)
+    }
+    return result
+}
+
 
 /**
  * Средняя (4 балла)

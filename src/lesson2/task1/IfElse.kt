@@ -155,10 +155,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     if (b < c || d < a) return -1
-    if (a > c) {
-        return if (b > d) d - a else b - a
+    return if (a > c) {
+        if (b > d) d - a else b - a
     } else {
-        return if (b > d) d - c else b - c
+        if (b > d) d - c else b - c
     }
 }
 
