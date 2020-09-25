@@ -153,7 +153,6 @@ fun mean(list: List<Double>): Double {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    if (list.isEmpty()) return list
     val center = mean(list)
     for ((index, element) in list.withIndex()) {
         list[index] = element - center
@@ -236,7 +235,18 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String {
+    val list = mutableListOf<Int>()
+    var divider = 2
+    var number = n
+    while (number > 1) {
+        if (number % divider == 0) {
+            list.add(divider)
+            number /= divider
+        } else divider++
+    }
+    return list.joinToString("*")
+}
 
 /**
  * Средняя (3 балла)
@@ -291,7 +301,22 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    var number = n
+    val listDigits = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
+    val listSimb = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
+    var String = ""
+    while (number > 0){
+        for (i in listDigits.size - 1 downTo 0){
+            if (number - listDigits[i] >= 0){
+                number -= listDigits[i]
+                String += listSimb[i]
+                break
+            }
+        }
+    }
+    return String
+}
 
 /**
  * Очень сложная (7 баллов)
@@ -300,4 +325,30 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    var number = n
+    val listUnits = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val listDdigits = listOf("одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+    val listTens = listOf("десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+    val listHundres = listOf("сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+    val listThousands = listOf("тысяча", "тысячи", "тысяч")
+    var string = ""
+    if (number > 1000) {
+        if (number / 1000 % 10 == 1 && number / 1000 % 100 != 11) {
+            string += russian(number / 1000 - number / 1000 % 10)
+            string += " одна"
+        } else if (number / 1000 % 10 == 2 && number / 1000 % 100 != 12) {
+            string += russian(number / 1000 - number / 1000 % 10)
+            string += " две"
+        } else string += russian(number / 1000)
+        string += ' '
+
+        if (number / 1000 % 10 == 1 && number / 10000 % 10 != 1) string += listThousands[0]
+        else if (number / 1000 % 10 in 2..4 && number / 10000 % 10 != 1) string += listThousands[1]
+        else string += listThousands[2]
+        string += ' '
+        number %= 1000
+    }
+    return string
+// Пока полностью не доделал, думаю...
+}
