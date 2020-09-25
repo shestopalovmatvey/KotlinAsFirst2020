@@ -307,8 +307,8 @@ fun roman(n: Int): String {
     val listSimb = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
     var String = ""
     while (number > 0){
-        for (i in listDigits.size - 1 downTo 0){
-            if (number - listDigits[i] >= 0){
+        for (i in listDigits.size - 1 downTo 0) {
+            if (number - listDigits[i] >= 0) {
                 number -= listDigits[i]
                 String += listSimb[i]
                 break
