@@ -133,16 +133,9 @@ fun abs(v: List<Double>): Double {
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double {
-    var averange = 0.0
-    var count = 0.0
-    if (list.isEmpty()) return averange
-    for (element in list) {
-        averange += element
-        count++
-    }
-    return averange / count
-}
+fun mean(list: List<Double>): Double =
+    if (list.isEmpty()) 0.0 else list.sum() / list.size
+
 
 /**
  * Средняя (3 балла)
@@ -328,30 +321,9 @@ fun roman(n: Int): String {
 fun russian(n: Int): String {
     var number = n
     val listUnits = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-    val listDdigits = listOf(
-        "одиннадцать",
-        "двенадцать",
-        "тринадцать",
-        "четырнадцать",
-        "пятнадцать",
-        "шестнадцать",
-        "семнадцать",
-        "восемнадцать",
-        "девятнадцать"
-    )
-    val listTens = listOf(
-        "десять",
-        "двадцать",
-        "тридцать",
-        "сорок",
-        "пятьдесят",
-        "шестьдесят",
-        "семьдесят",
-        "восемьдесят",
-        "девяносто"
-    )
-    val listHundres =
-        listOf("сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+    val listDdigits = listOf("одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+    val listTens = listOf("десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+    val listHundres = listOf("сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
     val listThousands = listOf("тысяча", "тысячи", "тысяч")
     var string = ""
     if (number > 1000) {
@@ -371,6 +343,7 @@ fun russian(n: Int): String {
 
         number %= 1000
     }
+
     if (number >= 100) {
         string += listHundres[number / 100 % 10 - 1]
         number %= 100

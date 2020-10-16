@@ -2,6 +2,11 @@
 
 package lesson5.task1
 
+import lesson3.task1.revert
+import lesson9.task2.generateSnake
+import ru.spbstu.kotlin.typeclass.classes.defaultValue
+import java.util.*
+
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
 // Рекомендуемое количество баллов = 9
@@ -108,7 +113,11 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "z", "b" to "sweet")) -> true
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
-fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = TODO()
+fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
+    val s = b + a
+    return s == b
+}
+
 
 /**
  * Простая (2 балла)
@@ -124,9 +133,7 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = TODO()
  *   subtractOf(a = mutableMapOf("a" to "z"), mapOf("a" to "z"))
  *     -> a changes to mutableMapOf() aka becomes empty
  */
-fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
-    TODO()
-}
+fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Nothing = TODO()
 
 /**
  * Простая (2 балла)
@@ -208,7 +215,14 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
+fun extractRepeats(list: List<String>): Map<String, Int> {
+    val rep = mutableMapOf<String, Int>()
+    for (elements in list) {
+        rep[elements] = if (!rep.containsKey(elements)) 1 else rep[elements]!! + 1
+    }
+    return rep.filter { it.value > 1 }
+
+}
 
 /**
  * Средняя (3 балла)
