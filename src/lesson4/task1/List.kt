@@ -319,13 +319,14 @@ fun roman(n: Int): String {
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String {
-    var number = n
-    val listUnits = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-    val listDdigits = listOf("одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
-    val listTens = listOf("десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
-    val listHundres = listOf("сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
-    val listThousands = listOf("тысяча", "тысячи", "тысяч")
+    val listOfHundreds = listOf("сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+    val listOfTens = listOf("десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+    val listOfSecTen = listOf("одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+    val listOfUnits = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val listOfThousands = listOf("тысяча", "тысячи", "тысяч")
     var string = ""
+    var number = n
+
     if (number > 1000) {
         if (number / 1000 % 10 == 1 && number / 1000 % 100 != 11) {
             string += russian(number / 1000 - number / 1000 % 10)
@@ -336,30 +337,30 @@ fun russian(n: Int): String {
         } else string += russian(number / 1000)
         string += ' '
 
-        if (number / 1000 % 10 == 1 && number / 10000 % 10 != 1) string += listThousands[0]
-        else if (number / 1000 % 10 in 2..4 && number / 10000 % 10 != 1) string += listThousands[1]
-        else string += listThousands[2]
+        if (number / 1000 % 10 == 1 && number / 10000 % 10 != 1) string += listOfThousands[0]
+        else if (number / 1000 % 10 in 2..4 && number / 10000 % 10 != 1) string += listOfThousands[1]
+        else string += listOfThousands[2]
         string += ' '
 
         number %= 1000
     }
 
     if (number >= 100) {
-        string += listHundres[number / 100 % 10 - 1]
+        string += listOfHundreds[number / 100 % 10 - 1]
         number %= 100
         string += ' '
     }
 
     if (number >= 20) {
-        string += listTens[number / 10 % 10 - 1]
+        string += listOfTens[number / 10 % 10 - 1]
         string += ' '
         if (number % 10 != 0) {
-            string += listUnits[number % 10 - 1]
+            string += listOfUnits[number % 10 - 1]
             string += ' '
         }
-    } else if (number > 10) string += listDdigits[number % 10 - 1]
-    else if (number == 10) string += listDdigits[0]
-    else if (number > 0) string += listUnits[number % 10 - 1]
+    } else if (number > 10) string += listOfSecTen[number % 10 - 1]
+    else if (number == 10) string += listOfTens[0]
+    else if (number > 0) string += listOfUnits[number % 10 - 1]
 
     return string.trim()
 }
