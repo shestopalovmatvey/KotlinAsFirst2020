@@ -298,17 +298,17 @@ fun roman(n: Int): String {
     var number = n
     val listDigits = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
     val listSimb = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
-    var String = ""
+    var line = ""
     while (number > 0) {
         for (i in listDigits.size - 1 downTo 0) {
             if (number - listDigits[i] >= 0) {
                 number -= listDigits[i]
-                String += listSimb[i]
+                line += listSimb[i]
                 break
             }
         }
     }
-    return String
+    return line
 }
 
 /**
@@ -324,43 +324,43 @@ fun russian(n: Int): String {
     val listOfSecTen = listOf("одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
     val listOfUnits = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
     val listOfThousands = listOf("тысяча", "тысячи", "тысяч")
-    var string = ""
+    var line = ""
     var number = n
 
     if (number > 1000) {
         if (number / 1000 % 10 == 1 && number / 1000 % 100 != 11) {
-            string += russian(number / 1000 - number / 1000 % 10)
-            string += " одна"
+            line += russian(number / 1000 - number / 1000 % 10)
+            line += " одна"
         } else if (number / 1000 % 10 == 2 && number / 1000 % 100 != 12) {
-            string += russian(number / 1000 - number / 1000 % 10)
-            string += " две"
-        } else string += russian(number / 1000)
-        string += ' '
+            line += russian(number / 1000 - number / 1000 % 10)
+            line += " две"
+        } else line += russian(number / 1000)
+        line += ' '
 
-        if (number / 1000 % 10 == 1 && number / 10000 % 10 != 1) string += listOfThousands[0]
-        else if (number / 1000 % 10 in 2..4 && number / 10000 % 10 != 1) string += listOfThousands[1]
-        else string += listOfThousands[2]
-        string += ' '
+        if (number / 1000 % 10 == 1 && number / 10000 % 10 != 1) line += listOfThousands[0]
+        else if (number / 1000 % 10 in 2..4 && number / 10000 % 10 != 1) line += listOfThousands[1]
+        else line += listOfThousands[2]
+        line += ' '
 
         number %= 1000
     }
 
     if (number >= 100) {
-        string += listOfHundreds[number / 100 % 10 - 1]
+        line += listOfHundreds[number / 100 % 10 - 1]
         number %= 100
-        string += ' '
+        line += ' '
     }
 
     if (number >= 20) {
-        string += listOfTens[number / 10 % 10 - 1]
-        string += ' '
+        line += listOfTens[number / 10 % 10 - 1]
+        line += ' '
         if (number % 10 != 0) {
-            string += listOfUnits[number % 10 - 1]
-            string += ' '
+            line += listOfUnits[number % 10 - 1]
+            line += ' '
         }
-    } else if (number > 10) string += listOfSecTen[number % 10 - 1]
-    else if (number == 10) string += listOfTens[0]
-    else if (number > 0) string += listOfUnits[number % 10 - 1]
+    } else if (number > 10) line += listOfSecTen[number % 10 - 1]
+    else if (number == 10) line += listOfTens[0]
+    else if (number > 0) line += listOfUnits[number % 10 - 1]
 
-    return string.trim()
+    return line.trim()
 }
