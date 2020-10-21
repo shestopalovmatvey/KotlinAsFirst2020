@@ -2,6 +2,8 @@
 
 package lesson6.task1
 
+import java.lang.NumberFormatException
+
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
 // Рекомендуемое количество баллов = 11
@@ -74,7 +76,28 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val parts = str.split(" ")
+    if (parts.size < 3) return ""
+    val day: Int
+    val month: Int
+    val year: Int
+    try {
+        day = parts[0].toInt()
+        month = months.indexOf(parts[1]) + 1
+        if (month == 0) return ""
+        year = parts[2].toInt()
+        when {
+            day == 32 -> return ""
+            month == 2 && day == 29 && year % 4 != 0 -> return ""
+        }
+
+    } catch (e: NumberFormatException){
+        return ""
+    }
+    return String.format("%02d.%02d.%d", day, month, year)
+}
 
 /**
  * Средняя (4 балла)
@@ -86,7 +109,28 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val parts = digital.split(".")
+    if (parts.size != 3) return ""
+    val day: Int
+    val month: Int
+    val year: Int
+    try {
+        day = parts[0].toInt()
+        month = parts[1].toInt()
+        year = parts[2].toInt()
+        when {
+            day == 32 -> return ""
+            month == 2 && day == 29 && year % 4 != 0 -> return ""
+        }
+
+    } catch (e: NumberFormatException){
+        return ""
+    }
+    if (month == 0) return ""
+    return String.format("%d %s %d", day, months[month - 1], year)
+}
 
 /**
  * Средняя (4 балла)
