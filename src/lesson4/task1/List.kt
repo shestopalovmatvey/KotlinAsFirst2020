@@ -161,11 +161,8 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.
  */
 fun times(a: List<Int>, b: List<Int>): Int {
-    var sum = 0
-    for (i in 0..a.size - 1) {
-        sum += a[i] * b[i]
-    }
-    return sum
+    val c = a.zip(b) {a, b -> a*b }.toList()
+    return c.sum()
 }
 
 /**
