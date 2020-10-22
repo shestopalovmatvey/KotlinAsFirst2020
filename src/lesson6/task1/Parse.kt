@@ -91,6 +91,7 @@ fun dateStrToDigit(str: String): String {
         when {
             day == 32 -> return ""
             month == 2 && day == 29 && year % 4 != 0 -> return ""
+            month == 2 && day > 29 -> return ""
         }
 
     } catch (e: NumberFormatException){
@@ -123,6 +124,8 @@ fun dateDigitToStr(digital: String): String {
         when {
             day == 32 -> return ""
             month == 2 && day == 29 && year % 4 != 0 -> return ""
+            month == 2 && day > 29 -> return ""
+            
         }
 
     } catch (e: NumberFormatException){
