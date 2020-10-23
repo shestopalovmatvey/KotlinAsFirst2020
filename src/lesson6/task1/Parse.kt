@@ -2,6 +2,7 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
 import java.lang.NumberFormatException
 
 // Урок 6: разбор строк, исключения
@@ -88,17 +89,12 @@ fun dateStrToDigit(str: String): String {
         month = months.indexOf(parts[1]) + 1
         if (month == 0) return ""
         year = parts[2].toInt()
-        when {
-            (month in 1..7 step 2 || month in 8..12 step 2) && day > 31 -> return ""
-            (month in 4..6 step 2 || month in 9..11 step 2) && day > 30 -> return ""
-            month == 2 && day == 29 && year % 4 != 0 -> return ""
-            month == 2 && day > 29 -> return ""
-        }
+        return if ((year > 0) && (day > 0) && (day <= daysInMonth(month, year))) String.format("%02d.%02d.%d", day, month, year)
+        else ""
 
     } catch (e: NumberFormatException){
         return ""
     }
-    return String.format("%02d.%02d.%d", day, month, year)
 }
 
 /**
@@ -122,18 +118,12 @@ fun dateDigitToStr(digital: String): String {
         day = parts[0].toInt()
         month = parts[1].toInt()
         year = parts[2].toInt()
-        when {
-            day > 31 -> return ""
-            month > 12 -> return ""
-            month == 2 && day == 29 && year % 4 != 0 -> return ""
-            month == 2 && day > 29 -> return ""
-        }
-
+        if (month == 0) return ""
+        return if ((year > 0) && (day > 0) && (day <= daysInMonth(month, year))) String.format("%d %s %d", day, months[month - 1], year)
+        else ""
     } catch (e: NumberFormatException){
         return ""
     }
-    if (month == 0) return ""
-    return String.format("%d %s %d", day, months[month - 1], year)
 }
 
 /**
