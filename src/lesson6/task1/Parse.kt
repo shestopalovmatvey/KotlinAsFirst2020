@@ -89,13 +89,10 @@ fun dateStrToDigit(str: String): String {
         if (month == 0) return ""
         year = parts[2].toInt()
         when {
-            day > 31 -> return ""
-            month > 12 -> return ""
+            (month in 1..7 step 2 || month in 8..12 step 2) && day > 31 -> return ""
+            (month in 4..6 step 2 || month in 9..11 step 2) && day > 30 -> return ""
             month == 2 && day == 29 && year % 4 != 0 -> return ""
             month == 2 && day > 29 -> return ""
-            month in 1..7 step 2 || month in 8..12 step 2 || day != 31 -> return ""
-            month in 4..6 step 2 || month in 9..11 step 2 || day != 30 -> return ""
-
         }
 
     } catch (e: NumberFormatException){
