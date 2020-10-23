@@ -4,6 +4,7 @@ package lesson6.task1
 
 import lesson2.task2.daysInMonth
 import java.lang.NumberFormatException
+import kotlin.math.max
 
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
@@ -118,7 +119,7 @@ fun dateDigitToStr(digital: String): String {
         day = parts[0].toInt()
         month = parts[1].toInt()
         year = parts[2].toInt()
-        if (month == 0) return ""
+        if (month == 0 && month < 13) return ""
         return if ((year > 0) && (day > 0) && (day <= daysInMonth(month, year))) String.format("%d %s %d", day, months[month - 1], year)
         else ""
     } catch (e: NumberFormatException){
@@ -140,7 +141,17 @@ fun dateDigitToStr(digital: String): String {
  *
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    val anyChars = listOf('+', '-', ' ', '(', ')')
+    val numChars = listOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
+    var phoneNum = ""
+    for (i in phone){
+        if (i !in anyChars && i !in numChars) return ""
+        if (phoneNum.isEmpty() && i == '+') phoneNum = "+"
+        if (i in numChars) phoneNum += i
+    }
+    return phoneNum
+}
 
 /**
  * Средняя (5 баллов)
@@ -152,8 +163,27 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val chars = listOf('-', ' ', '%')
+    val numChars = listOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
+    var result = -1
+    var strNum = ""
+    try {
+        for (i in jumps) {
+            if (i !in chars && i !in numChars) return -1
+            if (i in numChars) strNum += i
+            else {
+                if (strNum.length > 0) result = max(result, strNum.toInt())
+                strNum = ""
+            }
+        }
+        if (strNum.length > 0) result = max(result, strNum.toInt())
 
+    }catch (e: NumberFormatException){
+        return -1
+    }
+    return result
+}
 /**
  * Сложная (6 баллов)
  *
@@ -165,7 +195,23 @@ fun bestLongJump(jumps: String): Int = TODO()
  * При нарушении формата входной строки, а также в случае отсутствия удачных попыток,
  * вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val chars = listOf('+', ' ', '%', '-')
+    val numChars = listOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
+    var result = -1
+    var jump = 0
+    var strNum = ""
+    for (i in jumps){
+        if (i !in chars && i !in numChars) return -1
+        if (i in numChars) strNum += i
+        else if (strNum.length > 0){
+            jump = strNum.toInt()
+            strNum = ""
+        }
+        if (i == '+' && jump != 0) result = max(result, jump)
+    }
+    return result
+}
 
 /**
  * Сложная (6 баллов)
@@ -177,7 +223,6 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int = TODO()
-
 /**
  * Сложная (6 баллов)
  *
