@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import java.lang.StringBuilder
 import kotlin.math.sqrt
 
 // Урок 4: списки
@@ -295,17 +296,17 @@ fun roman(n: Int): String {
     var number = n
     val listDigits = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
     val listSimb = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
-    var line = ""
+    val line = StringBuilder()
     while (number > 0) {
         for (i in listDigits.size - 1 downTo 0) {
             if (number - listDigits[i] >= 0) {
                 number -= listDigits[i]
-                line += listSimb[i]
+                line.append(listSimb[i])
                 break
             }
         }
     }
-    return line
+    return line.toString()
 }
 
 /**
@@ -316,9 +317,12 @@ fun roman(n: Int): String {
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String {
-    val listOfHundreds = listOf("сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
-    val listOfTens = listOf("десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
-    val listOfSecTen = listOf("одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+    val listOfHundreds = listOf("сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот",
+        "семьсот", "восемьсот", "девятьсот")
+    val listOfTens = listOf("десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят",
+        "семьдесят", "восемьдесят", "девяносто")
+    val listOfSecTen = listOf("одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать",
+        "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
     val listOfUnits = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
     val listOfThousands = listOf("тысяча", "тысячи", "тысяч")
     var line = ""

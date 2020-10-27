@@ -3,6 +3,7 @@
 package lesson6.task1
 
 import lesson2.task2.daysInMonth
+import java.lang.IndexOutOfBoundsException
 import java.lang.NumberFormatException
 import kotlin.math.max
 
@@ -246,6 +247,7 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * Все цены должны быть больше нуля либо равны нулю.
  */
 fun mostExpensive(description: String): String = TODO()
+
 
 /**
  * Сложная (6 баллов)
