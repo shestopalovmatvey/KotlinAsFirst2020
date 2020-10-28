@@ -80,7 +80,10 @@ fun main() {
  * входными данными.
  */
 fun dateStrToDigit(str: String): String {
-    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val months = listOf(
+        "января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа",
+        "сентября", "октября", "ноября", "декабря"
+    )
     val parts = str.split(" ")
     if (parts.size < 3) return ""
     val day: Int
@@ -91,10 +94,15 @@ fun dateStrToDigit(str: String): String {
         month = months.indexOf(parts[1]) + 1
         if (month == 0) return ""
         year = parts[2].toInt()
-        return if ((year > 0) && (day > 0) && (day <= daysInMonth(month, year))) String.format("%02d.%02d.%d", day, month, year)
+        return if ((year > 0) && (day > 0) && (day <= daysInMonth(month, year))) String.format(
+            "%02d.%02d.%d",
+            day,
+            month,
+            year
+        )
         else ""
 
-    } catch (e: NumberFormatException){
+    } catch (e: NumberFormatException) {
         return ""
     }
 }
@@ -110,7 +118,10 @@ fun dateStrToDigit(str: String): String {
  * входными данными.
  */
 fun dateDigitToStr(digital: String): String {
-    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val months = listOf(
+        "января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа",
+        "сентября", "октября", "ноября", "декабря"
+    )
     val parts = digital.split(".")
     if (parts.size != 3) return ""
     val day: Int
@@ -121,9 +132,11 @@ fun dateDigitToStr(digital: String): String {
         month = parts[1].toInt()
         year = parts[2].toInt()
         if (month == 0 && month < 13) return ""
-        return if ((year > 0) && (day > 0) && (day <= daysInMonth(month, year))) String.format("%d %s %d", day, months[month - 1], year)
+        return if ((year > 0) && (day > 0) &&
+            (day <= daysInMonth(month, year))
+        ) String.format("%d %s %d", day, months[month - 1], year)
         else ""
-    } catch (e: NumberFormatException){
+    } catch (e: NumberFormatException) {
         return ""
     }
 }
@@ -146,7 +159,7 @@ fun flattenPhoneNumber(phone: String): String {
     val anyChars = listOf('+', '-', ' ', '(', ')')
     val numChars = listOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
     var phoneNum = ""
-    for (i in phone){
+    for (i in phone) {
         if (i !in anyChars && i !in numChars) return ""
         if (phoneNum.isEmpty() && i == '+') phoneNum = "+"
         if (i in numChars) phoneNum += i
@@ -174,17 +187,18 @@ fun bestLongJump(jumps: String): Int {
             if (i !in chars && i !in numChars) return -1
             if (i in numChars) strNum += i
             else {
-                if (strNum.length > 0) result = max(result, strNum.toInt())
+                if (strNum.isNotEmpty()) result = max(result, strNum.toInt())
                 strNum = ""
             }
         }
-        if (strNum.length > 0) result = max(result, strNum.toInt())
+        if (strNum.isNotEmpty()) result = max(result, strNum.toInt())
 
-    }catch (e: NumberFormatException){
+    } catch (e: NumberFormatException) {
         return -1
     }
     return result
 }
+
 /**
  * Сложная (6 баллов)
  *
@@ -202,10 +216,10 @@ fun bestHighJump(jumps: String): Int {
     var result = -1
     var jump = 0
     var strNum = ""
-    for (i in jumps){
+    for (i in jumps) {
         if (i !in chars && i !in numChars) return -1
         if (i in numChars) strNum += i
-        else if (strNum.length > 0){
+        else if (strNum.isNotEmpty()) {
             jump = strNum.toInt()
             strNum = ""
         }
@@ -224,6 +238,7 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int = TODO()
+
 /**
  * Сложная (6 баллов)
  *
@@ -246,7 +261,28 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше нуля либо равны нулю.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    var max = -1.0
+    val parts = description.split("; ")
+    var result = ""
+    var price: Double
+    if (parts.isEmpty()) return ""
+    for (part in parts) {
+        val str = part.split(" ")
+        try {
+            price = str[1].toDouble()
+        } catch (e: NumberFormatException) {
+            return ""
+        } catch (e: IndexOutOfBoundsException) {
+            return ""
+        }
+        if (price > max) {
+            result = str[0]
+            max = price
+        }
+    }
+    return result
+}
 
 
 /**
