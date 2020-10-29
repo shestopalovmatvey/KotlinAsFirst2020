@@ -131,7 +131,7 @@ fun dateDigitToStr(digital: String): String {
         day = parts[0].toInt()
         month = parts[1].toInt()
         year = parts[2].toInt()
-        if (month == 0 && month < 13) return ""
+        if (month == 0 || month < 13) return ""
         return if ((year > 0) && (day > 0) &&
             (day <= daysInMonth(month, year))
         ) String.format("%d %s %d", day, months[month - 1], year)
