@@ -125,16 +125,14 @@ fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
     if (parts.size != 3) return ""
     val day: Int
-    val month: Int
     val year: Int
     try {
         day = parts[0].toInt()
-        month = parts[1].toInt()
+        val month = if (parts[1].toInt() in 1..12) months[parts[1].toInt() - 1] else return ""
         year = parts[2].toInt()
-        if (month == 0 || month < 13) return ""
         return if ((year > 0) && (day > 0) &&
-            (day <= daysInMonth(month, year))
-        ) String.format("%d %s %d", day, months[month - 1], year)
+            (day <= daysInMonth(parts[1].toInt(), year))
+        ) String.format("%d %s %d", day, months, year)
         else ""
     } catch (e: NumberFormatException) {
         return ""
@@ -155,17 +153,7 @@ fun dateDigitToStr(digital: String): String {
  *
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
-fun flattenPhoneNumber(phone: String): String {
-    val anyChars = listOf('+', '-', ' ', '(', ')')
-    val numChars = listOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
-    var phoneNum = ""
-    for (i in phone) {
-        if (i !in anyChars && i !in numChars) return ""
-        if (phoneNum.isEmpty() && i == '+') phoneNum = "+"
-        if (i in numChars) phoneNum += i
-    }
-    return phoneNum
-}
+fun flattenPhoneNumber(phone: String): String = TODO()
 
 /**
  * Средняя (5 баллов)
@@ -178,27 +166,18 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    val chars = listOf('-', ' ', '%')
-    val numChars = listOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
-    var result = -1
-    var strNum = ""
-    try {
-        for (i in jumps) {
-            if (i !in chars && i !in numChars) return -1
-            if (i in numChars) strNum += i
-            else {
-                if (strNum.isNotEmpty()) result = max(result, strNum.toInt())
-                strNum = ""
-            }
+    val result = jumps.split(" ")
+    var answer = -1
+    result.forEachIndexed { i, el ->
+        try {
+            val res = el.toInt()
+            if (res > answer) answer = res
+        } catch (e: NumberFormatException){
+            if (!(("-" in el) || ("%" in el))) return -1
         }
-        if (strNum.isNotEmpty()) result = max(result, strNum.toInt())
-
-    } catch (e: NumberFormatException) {
-        return -1
     }
-    return result
+    return answer
 }
-
 /**
  * Сложная (6 баллов)
  *
@@ -211,21 +190,17 @@ fun bestLongJump(jumps: String): Int {
  * вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    val chars = listOf('+', ' ', '%', '-')
-    val numChars = listOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
-    var result = -1
-    var jump = 0
-    var strNum = ""
-    for (i in jumps) {
-        if (i !in chars && i !in numChars) return -1
-        if (i in numChars) strNum += i
-        else if (strNum.isNotEmpty()) {
-            jump = strNum.toInt()
-            strNum = ""
+    val result = jumps.split(" ")
+    var answer = -1
+    result.forEachIndexed { i, el ->
+        try {
+            val res = el.toInt()
+            if ((res > answer) && ("+" == result[i + 1])) answer = res
+        } catch (e: NumberFormatException) {
+            if (!(("-" in el) || ("%" in el) || ("+" in el))) return -1
         }
-        if (i == '+' && jump != 0) result = max(result, jump)
     }
-    return result
+    return answer
 }
 
 /**
