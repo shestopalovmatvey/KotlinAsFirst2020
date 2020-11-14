@@ -242,28 +242,20 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * Все цены должны быть больше нуля либо равны нулю.
  */
 fun mostExpensive(description: String): String {
-    var max = -1.0
     val parts = description.split(" ", "; ")
-    var result = ""
-    var price: Double
-    if (parts.isEmpty()) return ""
-    for (part in parts) {
-        val str = part.split(" ")
-        try {
-            price = str[1].toDouble()
-        } catch (e: NumberFormatException) {
-            return ""
-        } catch (e: IndexOutOfBoundsException) {
-            return ""
+    var answer = Pair<String, Double>("", -1.0)
+    if (parts.size < 2) return ""
+    try {
+        for (i in (parts.indices step 2)) {
+            val number = parts[i + 1].toDouble()
+            if ((i % 2 == 0) && (number >= 0.0) && (number> answer.second))
+                answer = Pair(parts[i], number)
         }
-        if (price > max) {
-            result = str[0]
-            max = price
-        }
+    } catch (e: NumberFormatException){
+        return ""
     }
-    return result
+    return answer.first
 }
-
 
 /**
  * Сложная (6 баллов)
