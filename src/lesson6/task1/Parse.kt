@@ -153,7 +153,12 @@ fun dateDigitToStr(digital: String): String {
  *
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    val clearedPhone = phone.replace(" ", "").replace("-", "")
+    return if (clearedPhone.matches(Regex("""(\+\d+)?(\(\d+\))?\d+""")))
+        clearedPhone.replace("(", "").replace(")", "")
+    else ""
+}
 
 /**
  * Средняя (5 баллов)
@@ -238,7 +243,7 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  */
 fun mostExpensive(description: String): String {
     var max = -1.0
-    val parts = description.split("; ")
+    val parts = description.split(" ", "; ")
     var result = ""
     var price: Double
     if (parts.isEmpty()) return ""
