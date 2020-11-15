@@ -88,7 +88,9 @@ fun deleteMarked(inputName: String, outputName: String) {
  * Регистр букв игнорировать, то есть буквы е и Е считать одинаковыми.
  *
  */
-fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> = TODO()
+fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
+    TODO()
+}
 
 
 /**
@@ -246,8 +248,24 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
-    TODO()
+    val reader = File(inputName).bufferedReader()
+    val writer = File(outputName).bufferedWriter()
+    val longests = mutableListOf<String>()
+    var longestLen = 0
+    reader.forEachLine { word ->
+        if (word.length > longestLen && word.length == word.toLowerCase().toSet().size) {
+            longestLen = word.length
+            longests.clear()
+            longests.add(word)
+        } else if (word.length == longestLen && word.length == word.toLowerCase().toSet().size) {
+            longests.add(word)
+        }
+    }
+    reader.close()
+    writer.write(longests.joinToString(separator = ", "))
+    writer.close()
 }
+
 
 /**
  * Сложная (22 балла)
