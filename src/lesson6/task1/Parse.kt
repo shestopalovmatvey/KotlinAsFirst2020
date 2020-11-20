@@ -86,19 +86,13 @@ fun dateStrToDigit(str: String): String {
     )
     val parts = str.split(" ")
     if (parts.size < 3) return ""
-    val day: Int
-    val month: Int
-    val year: Int
     try {
-        day = parts[0].toInt()
-        month = months.indexOf(parts[1]) + 1
+        val day: Int = parts[0].toInt()
+        val month: Int = months.indexOf(parts[1]) + 1
         if (month == 0) return ""
-        year = parts[2].toInt()
+        val year: Int = parts[2].toInt()
         return if ((year > 0) && (day > 0) && (day <= daysInMonth(month, year))) String.format(
-            "%02d.%02d.%d",
-            day,
-            month,
-            year
+            "%02d.%02d.%d", day, month, year
         )
         else ""
 
@@ -124,15 +118,13 @@ fun dateDigitToStr(digital: String): String {
     )
     val parts = digital.split(".")
     if (parts.size != 3) return ""
-    val day: Int
-    val year: Int
     try {
-        day = parts[0].toInt()
+        val day = parts[0].toInt()
+        val year = parts[2].toInt()
         val month = if (parts[1].toInt() in 1..12) months[parts[1].toInt() - 1] else return ""
-        year = parts[2].toInt()
         return if ((year > 0) && (day > 0) &&
             (day <= daysInMonth(parts[1].toInt(), year))
-        ) String.format("%d %s %d", day, months, year)
+        ) String.format("%d %s %d", day, month, year)
         else ""
     } catch (e: NumberFormatException) {
         return ""
@@ -241,21 +233,11 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше нуля либо равны нулю.
  */
-fun mostExpensive(description: String): String {
-    val parts = description.split(" ", "; ")
-    var answer = Pair<String, Double>("", -1.0)
-    if (parts.size < 2) return ""
-    try {
-        for (i in (parts.indices step 2)) {
-            val number = parts[i + 1].toDouble()
-            if ((i % 2 == 0) && (number >= 0.0) && (number> answer.second))
-                answer = Pair(parts[i], number)
-        }
-    } catch (e: NumberFormatException){
-        return ""
-    }
-    return answer.first
-}
+fun mostExpensive(description: String): String =
+    if (description.matches(Regex("""([^\s]+\s\d+(\.\d+)?;\s)*[^\s]+\s\d+(\.\d+)?${'$'}"""))) {
+        description.split("; ").map { val pair = it.split(" "); println(pair); pair[0] to pair[1].toDouble() }
+            .maxByOrNull { println(it); it.second }!!.first
+    } else ""
 
 /**
  * Сложная (6 баллов)
