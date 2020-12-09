@@ -159,14 +159,14 @@ fun centerFile(inputName: String, outputName: String) {
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    var writer = File(outputName).bufferedWriter()
+    val writer = File(outputName).bufferedWriter()
     var max = 0
     for (line in File(inputName).readLines()) {
         if (line.trim().length > max) max = line.trim().length
     }
     for (line in File(inputName).readLines()) {
         if (line.isEmpty() || line.all { it.isWhitespace() }) writer.newLine() else {
-            var words = line.trim().split(Regex("""\s+"""))
+            val words = line.trim().split(Regex("""\s+"""))
             var sumL = 0
             var sumWrd = 0
             for (word in words) {
