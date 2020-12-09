@@ -87,10 +87,10 @@ fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
     if (parts.size < 3) return ""
     try {
-        val day: Int = parts[0].toInt()
-        val month: Int = months.indexOf(parts[1]) + 1
+        val day = parts[0].toInt()
+        val month = months.indexOf(parts[1]) + 1
         if (month == 0) return ""
-        val year: Int = parts[2].toInt()
+        val year = parts[2].toInt()
         return if ((year > 0) && (day > 0) && (day <= daysInMonth(month, year))) String.format(
             "%02d.%02d.%d", day, month, year
         )
@@ -187,14 +187,15 @@ fun bestLongJump(jumps: String): Int {
  * вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    val result = jumps.split(" ")
+    val results = jumps.split(" ")
     var answer = -1
-    result.forEachIndexed { i, el ->
+    results.forEachIndexed { i, el ->
         try {
             val res = el.toInt()
-            if ((res > answer) && ("+" == result[i + 1])) answer = res
+            if ((res > answer) && ('+' in results[i + 1]) && (!results[i + 1].contains(Regex("[^%+-]")))) answer = res
         } catch (e: NumberFormatException) {
-            if (!(("-" in el) || ("%" in el) || ("+" in el))) return -1
+            if (el.contains(Regex("[^%+-]")) )
+                return -1
         }
     }
     return answer
@@ -289,3 +290,7 @@ fun fromRoman(roman: String): Int = TODO()
  *
  */
 fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
+
+
+
+
