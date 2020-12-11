@@ -186,21 +186,11 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки, а также в случае отсутствия удачных попыток,
  * вернуть -1.
  */
-fun bestHighJump(jumps: String): Int {
-    val results = jumps.split(" ")
-    var answer = -1
-    results.forEachIndexed { i, el ->
-        try {
-            val res = el.toInt()
-            if ((res > answer) && ('+' in results[i + 1]) && (!results[i + 1].contains(Regex("[^%+-]")))) answer = res
-        } catch (e: NumberFormatException) {
-            if (el.contains(Regex("[^%+-]")) )
-                return -1
-        }
-    }
-    return answer
-}
-
+fun bestHighJump(jumps: String) =
+    if (jumps.matches(Regex("""^(\d+\s(%+(-|\+)?|(-|\+))\s)*(\d+\s(%+(-|\+)?|(-|\+)))${'$'}""")))
+        Regex("""\d+\s%*\+""").findAll(jumps).maxOfOrNull {
+            it.value.filter { it.isDigit() }.toInt() } ?: -1
+    else -1
 /**
  * Сложная (6 баллов)
  *
@@ -236,10 +226,15 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  */
 fun mostExpensive(description: String): String =
     if (description.matches(Regex("""([^\s]+\s\d+(\.\d+)?;\s)*[^\s]+\s\d+(\.\d+)?${'$'}"""))) {
-        description.split("; ").map { val pair = it.split(" "); println(pair); pair[0] to pair[1].toDouble() }
-            .maxByOrNull { println(it); it.second }!!.first
+        description
+            .split("; ")
+            .map {
+                val pair = it.split(" ");
+                println(pair);
+                pair[0] to pair[1].toDouble()
+            }
+            .maxByOrNull { it.second }!!.first
     } else ""
-
 /**
  * Сложная (6 баллов)
  *
