@@ -150,4 +150,18 @@ class Tests {
         assertThrows(IllegalArgumentException::class.java) { computeDeviceCells(10, "+>+>[+>", 3) }
         assertThrows(IllegalStateException::class.java) { computeDeviceCells(20, ">>>>>>>>>>>>>", 12) }
     }
+
+    @Test
+    fun coding() {
+        assertEquals("a3bab2cb3", coding("aaababbcbbb"))
+        assertEquals("a4", coding("aaaa"))
+        assertEquals("b8a7", coding("bbbbbbbbaaaaaaa"))
+        assertEquals("/5", coding("/////"))
+        assertEquals("^2$3#4", coding("^^$$$####"))
+        assertEquals("233343", coding("222333444"))
+    }
+
+
+
+
 }

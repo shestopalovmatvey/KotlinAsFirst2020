@@ -2,6 +2,8 @@
 
 package lesson1.task1
 
+import junit.framework.Assert.assertEquals
+import org.junit.Test
 import kotlin.math.*
 
 // Урок 1: простые функции
@@ -66,7 +68,7 @@ fun main() {
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  */
 fun seconds(hours: Int, minutes: Int, seconds: Int): Int =
-    (hours * 60 * 60) + (minutes * 60) + seconds
+    ((hours * 3600) + (minutes * 60) + seconds)
 
 
 /**
@@ -77,7 +79,7 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int =
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
-    ((sagenes * 48 * 4.445) + (arshins * 16 * 4.445) + (vershoks * 4.445)) / 100
+    ((sagenes * 3.0 * 16.0) + (arshins * 16.0) + vershoks)
 
 
 /**
@@ -118,7 +120,7 @@ fun thirdDigit(number: Int): Int =
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int =
-    ((hoursArrive * 60) + minutesArrive) - ((hoursDepart * 60) + minutesDepart)
+    ((hoursArrive * 60 + minutesArrive) - (hoursDepart * 60 + minutesDepart))
 
 
 /**
@@ -129,8 +131,8 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double {
-    val x1 = (percent * 0.01) + 1
-    return initial * (x1 * x1 * x1)
+    val x = (percent * 0.01) + 1
+    return (initial * (x * x * x))
 }
 
 /**
@@ -141,4 +143,6 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
  */
 fun numberRevert(number: Int): Int =
     (number % 10 * 100) + (number / 10 % 10 * 10) + (number / 100 % 10)
+
+
 

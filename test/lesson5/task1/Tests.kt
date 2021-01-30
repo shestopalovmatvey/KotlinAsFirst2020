@@ -155,6 +155,10 @@ class Tests {
             emptyList<String>(),
             whoAreInBoth(listOf("Marat", "Mikhail"), listOf("Sveta", "Kirill"))
         )
+        assertEquals(
+            listOf("Marat"),
+            whoAreInBoth(listOf("Marat", "Mikhail", "Marat"), listOf("Marat", "Marat"))
+        )
     }
 
     @Test
@@ -261,7 +265,7 @@ class Tests {
         assertTrue(hasAnagrams(listOf("рот", "свет", "тор")))
         assertFalse(hasAnagrams(listOf("рот", "свет", "код", "дверь")))
         assertFalse(hasAnagrams(listOf("поле", "полено")))
-        assertTrue(hasAnagrams(listOf("лунь", "нуль")))
+        assertFalse(hasAnagrams(listOf("лунь", "нуль")))
     }
 
     @Test
@@ -336,4 +340,6 @@ class Tests {
             )
         )
     }
+
+
 }

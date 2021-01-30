@@ -2,6 +2,7 @@
 
 package lesson3.task1
 
+import org.junit.Test
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.sqrt
@@ -75,14 +76,16 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun digitNumber(n: Int): Int {
-    var number = n
-    var s = 0
+    var n = n
+    var digit = 0
     do {
-        number /= 10
-        s++
-    } while (abs(number) > 0)
-    return s
+        n /= 10
+        digit++
+    }while (abs(n) > 0)
+    return digit
 }
+
+
 
 /**
  * Простая (2 балла)
@@ -90,16 +93,7 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int {
-    var first = 1
-    var second = 1
-    for (i in 3..n) {
-        val temp = second
-        second += first
-        first = temp
-    }
-    return second
-}
+fun fib(n: Int): Int = TODO()
 
 
 /**
@@ -108,15 +102,16 @@ fun fib(n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var i = 2
-    while (n >= i) {
-        if (n % i == 0) {
-            return i
+    var minDiv = 2
+    while (n > minDiv){
+        if (n % minDiv == 0) {
+            return minDiv
         }
-        i++
+        minDiv++
     }
-    return i
+    return minDiv
 }
+
 
 /**
  * Простая (2 балла)
@@ -141,7 +136,19 @@ fun maxDivisor(n: Int): Int = TODO()
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int {
+    var x = x
+    var s = 0
+    while (x != 1){
+        s++
+        if (x % 2 == 0){
+            x /= 2
+        } else {
+            x = 3 * x + 1
+        }
+    }
+    return s
+}
 
 /**
  * Средняя (3 балла)
@@ -160,6 +167,7 @@ fun lcm(m: Int, n: Int): Int {
     }
     return a / (mumber + number)
 }
+
 
 /**
  * Средняя (3 балла)
@@ -187,17 +195,18 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun revert(n: Int): Int {
+    var n = n
+    var number = 0
     var n2 = 0
-    var digit = 0
-    var number = n
-    while (number > 0) {
-        digit = number % 10
-        number /= 10
+    while (n > 0){
+        number = n % 10
+        n /= 10
         n2 *= 10
-        n2 += digit
+        n2 += number
     }
     return n2
 }
+
 
 /**
  * Средняя (3 балла)
@@ -208,7 +217,9 @@ fun revert(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean =
+    revert(n) == n
+
 
 
 /**
@@ -221,11 +232,11 @@ fun isPalindrome(n: Int): Boolean = TODO()
  */
 fun hasDifferentDigits(n: Int): Boolean {
     if (n < 10) return false
-    var number = n
-    val num = number % 10
-    while (number > 0) {
-        if (number % 10 != num) return true
-        number /= 10
+    var n = n
+    val digit = n % 10
+    while (n > 0) {
+        if (n % 10 != digit) return true
+        n /= 10
     }
     return false
 }
@@ -240,20 +251,8 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
-fun sin(x: Double, eps: Double): Double {
-    val value = x % (2 * PI)
-    var result = 0.0
-    var member = value
-    var pow = 1
-    var sign = 1
-    while (Math.abs(member) - eps > 0) {
-        result += member
-        pow += 2
-        sign *= -1
-        member = sign * Math.pow(value, pow.toDouble()) / factorial(pow)
-    }
-    return result
-}
+fun sin(x: Double, eps: Double): Double = TODO()
+
 
 
 /**
@@ -265,20 +264,8 @@ fun sin(x: Double, eps: Double): Double {
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
  */
-fun cos(x: Double, eps: Double): Double {
-    val value = x % (2 * PI)
-    var result = 0.0
-    var member = 1.0
-    var pow = 0
-    var sign = 1
-    while (Math.abs(member) - eps > 0) {
-        result += member
-        pow += 2
-        sign *= -1
-        member = sign * Math.pow(value, pow.toDouble()) / factorial(pow)
-    }
-    return result
-}
+fun cos(x: Double, eps: Double): Double = TODO()
+
 
 /**
  * Сложная (4 балла)

@@ -145,12 +145,7 @@ fun dateDigitToStr(digital: String): String {
  *
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
-fun flattenPhoneNumber(phone: String): String {
-    val clearedPhone = phone.replace(" ", "").replace("-", "")
-    return if (clearedPhone.matches(Regex("""(\+\d+)?(\(\d+\))?\d+""")))
-        clearedPhone.replace("(", "").replace(")", "")
-    else ""
-}
+fun flattenPhoneNumber(phone: String): String = TODO()
 
 /**
  * Средняя (5 баллов)
@@ -162,19 +157,7 @@ fun flattenPhoneNumber(phone: String): String {
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int {
-    val result = jumps.split(" ")
-    var answer = -1
-    result.forEachIndexed { i, el ->
-        try {
-            val res = el.toInt()
-            if (res > answer) answer = res
-        } catch (e: NumberFormatException){
-            if (!(("-" in el) || ("%" in el))) return -1
-        }
-    }
-    return answer
-}
+fun bestLongJump(jumps: String): Int = TODO()
 /**
  * Сложная (6 баллов)
  *
@@ -186,11 +169,7 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки, а также в случае отсутствия удачных попыток,
  * вернуть -1.
  */
-fun bestHighJump(jumps: String) =
-    if (jumps.matches(Regex("""^(\d+\s(%+(-|\+)?|(-|\+))\s)*(\d+\s(%+(-|\+)?|(-|\+)))${'$'}""")))
-        Regex("""\d+\s%*\+""").findAll(jumps).maxOfOrNull {
-            it.value.filter { it.isDigit() }.toInt() } ?: -1
-    else -1
+fun bestHighJump(jumps: String): Nothing = TODO()
 /**
  * Сложная (6 баллов)
  *
@@ -224,17 +203,7 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше нуля либо равны нулю.
  */
-fun mostExpensive(description: String): String =
-    if (description.matches(Regex("""([^\s]+\s\d+(\.\d+)?;\s)*[^\s]+\s\d+(\.\d+)?${'$'}"""))) {
-        description
-            .split("; ")
-            .map {
-                val pair = it.split(" ");
-                println(pair);
-                pair[0] to pair[1].toDouble()
-            }
-            .maxByOrNull { it.second }!!.first
-    } else ""
+fun mostExpensive(description: String): String = TODO()
 /**
  * Сложная (6 баллов)
  *
@@ -285,6 +254,27 @@ fun fromRoman(roman: String): Int = TODO()
  *
  */
 fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
+
+
+fun coding(input: String): Any {
+    var answer = ""
+    var second = input[0]
+    var count = 0
+    input.forEach {
+        if (it == second) count++
+        else {
+            if (count < 2) {
+                answer += second
+            } else {
+                answer += answer + second + count
+                count = 1
+            }
+            second = it
+        }
+    }
+    return answer
+}
+
 
 
 
