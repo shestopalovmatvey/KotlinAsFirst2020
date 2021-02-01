@@ -177,15 +177,15 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
-    val chek = mapA.toMutableMap()
+    val answer = mapA.toMutableMap()
     for ((key, value) in mapB) {
-        if ((key in chek) && (value != chek[key])) {
-            chek[key] = "${chek[key]}, $value"
+        if ((key in answer) && (value != answer[key])) {
+            answer[key] = "${mapA[key]}, $value"
         } else {
-            chek[key] = value
+            answer[key] = value
         }
     }
-    return chek
+    return answer
 }
 
 
@@ -205,7 +205,7 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
     val averageMap = mutableMapOf<String, Double>()
     for ((first, second) in stockPrices) {
         chek[first] = chek.getOrDefault(first, 0) + 1
-        price[first] = price.getOrDefault(first, 0.0) + second
+        price[first] = price.getOrDefault(first, 0.0) + 1
     }
     for ((key) in chek) {
         averageMap[key] = price[key]!! / chek[key]!!
@@ -232,7 +232,7 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
     var min = Double.MAX_VALUE
     var answer: String? = null
     for ((key, value) in stuff){
-        if (value.first == kind && value.second < min){
+        if (kind == value.first && min > value.second){
             min = value.second
             answer = key
         }

@@ -11,36 +11,28 @@ class Tests {
 
         assertEquals(
             mutableListOf(
-                (0 to 0),
-                (0 to 1),
-                (0 to 3),
-                (0 to 4),
-                (0 to 7),
-                (0 to 8),
-                (0 to 9),
-                (1 to 2),
-                (1 to 6),
-                (2 to 5),
-                (2 to 9)
-            ), getCamerasList("input/maze")
+                (1 to 1),
+                (4 to 5)
+            ), getCamerasList("input/maze", 2)
         )
         assertEquals(
             mutableListOf(
-                (0 to 0),
-                (0 to 1),
-                (0 to 3),
-                (0 to 4),
-                (0 to 5),
-                (0 to 7),
-                (0 to 8),
-                (0 to 9),
-                (1 to 2),
-                (1 to 6),
-                (1 to 10),
-                (2 to 5),
-                (2 to 9)
-            ), getCamerasList("input/Maze2")
+                (4 to 0),
+                (8 to 0),
+                (0 to 2)
+            ), getCamerasList("input/Maze2", 3)
         )
+        assertEquals(
+            mutableListOf(
+                (4 to 0),
+                (8 to 0),
+                (4 to 1),
+                (0 to 2),
+                (4 to 2),
+                (8 to 2)
+            ), getCamerasList("input/Maze2", 6)
+        )
+
 
     }
 
