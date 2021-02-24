@@ -135,8 +135,9 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean =
  */
 fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
     for ((key, value) in b) {
-        if (a[key] == value)
+        if (a[key] == value) {
             a.remove(key)
+        }
     }
 }
 
@@ -149,14 +150,13 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
 fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
-    val x = mutableListOf<String>()
-
-    for (i in a.indices) {
-        if (a[i] in b && a[i] !in x) {
-            x.add(a[i])
+    val l = mutableListOf<String>()
+    for (key in a) {
+        if (key in b && key !in l) {
+            l.add(key)
         }
     }
-    return x
+    return l
 }
 
 /**
@@ -177,15 +177,15 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
-    val answer = mapA.toMutableMap()
+    val map = mapA.toMutableMap()
     for ((key, value) in mapB) {
-        if ((key in answer) && (value != answer[key])) {
-            answer[key] = "${mapA[key]}, $value"
+        if (key in map && map[key] != value) {
+            map[key] = "${mapA[key]}, $value"
         } else {
-            answer[key] = value
+            map[key] = value
         }
     }
-    return answer
+    return map
 }
 
 
@@ -203,12 +203,12 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
     val price = mutableMapOf<String, Double>()
     val chek = mutableMapOf<String, Int>()
     val averageMap = mutableMapOf<String, Double>()
-    for ((first, second) in stockPrices) {
-        chek[first] = chek.getOrDefault(first, 0) + 1
-        price[first] = price.getOrDefault(first, 0.0) + 1
+    for (i in stockPrices) {
+        chek[i.first] = chek.getOrDefault(i.first, 0) + 1
+        price[i.first] = price.getOrDefault(i.first, 0.0) + i.second
     }
-    for ((key) in chek) {
-        averageMap[key] = price[key]!! / chek[key]!!
+    for (i in chek) {
+        averageMap[i.key] = price[i.key]!! / chek[i.key]!!
     }
     return averageMap
 }
@@ -230,14 +230,14 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  */
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
     var min = Double.MAX_VALUE
-    var answer: String? = null
-    for ((key, value) in stuff){
-        if (kind == value.first && min > value.second){
+    var res: String? = null
+    for ((key, value) in stuff) {
+        if (value.first == kind && min > value.second) {
             min = value.second
-            answer = key
+            res = key
         }
     }
-    return answer
+    return res
 }
 
 
@@ -277,11 +277,11 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
 fun extractRepeats(list: List<String>): Map<String, Int> {
-    val answer = mutableMapOf<String, Int>()
+    val res = mutableMapOf<String, Int>()
     for (i in list) {
-        answer[i] = answer.getOrDefault(i, 0) + 1
+        res[i] = res.getOrDefault(i, 0) + 1
     }
-    return answer.filter { it.value < 1 }
+    return res.filter { it.value < 1 }
 }
 
 /**

@@ -2,7 +2,9 @@
 
 package lesson6.task1
 
+import kotlinx.html.I
 import lesson2.task2.daysInMonth
+import java.io.File
 import java.lang.IndexOutOfBoundsException
 import java.lang.NumberFormatException
 import kotlin.math.max
@@ -145,7 +147,12 @@ fun dateDigitToStr(digital: String): String {
  *
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    var number = phone.replace(" ", "").replace("-", "")
+    return if (number.matches(Regex("""(\+\d+)?(\(\d+\))?\d+""")))
+        number.replace("(", "").replace(")", "")
+    else ""
+}
 
 /**
  * Средняя (5 баллов)
@@ -157,7 +164,23 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val reg = Regex("""\d+""")
+    val chek = Regex("""[^-%\s\d]""")
+    if (chek.find(jumps) != null) return -1
+    var matchRes = reg.find(jumps)
+    var max = -1
+    while (matchRes != null) {
+        var x = matchRes.value.toInt()
+        if (x > max) {
+            max = x
+        }
+        matchRes = matchRes.next()
+
+    }
+    return max
+}
+
 /**
  * Сложная (6 баллов)
  *
@@ -169,7 +192,27 @@ fun bestLongJump(jumps: String): Int = TODO()
  * При нарушении формата входной строки, а также в случае отсутствия удачных попыток,
  * вернуть -1.
  */
-fun bestHighJump(jumps: String): Nothing = TODO()
+fun bestHighJump(jumps: String): Int {
+    val reg = Regex("""\d+\s\+""")
+    val chek = Regex("""[^-%+\s\d]""")
+    if (chek.find(jumps) != null) return -1
+    var matchRes = reg.find(jumps)
+    var max = -1
+    while (matchRes != null) {
+        var x = matchRes.value.split(" ")
+        for (i in x) {
+            if (i != "+") {
+                if (i.toInt() > max) {
+                    max = i.toInt()
+                }
+            }
+
+        }
+        matchRes = matchRes.next()
+    }
+    return max
+}
+
 /**
  * Сложная (6 баллов)
  *
@@ -190,7 +233,16 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val parts = str.toLowerCase().split(" ")
+    var index = 0
+    if (parts.size < 2) return -1
+    for (i in parts.indices) {
+        if (parts[i] == parts[i + 1]) return index
+        index += parts[i].length + 1
+    }
+    return -1
+}
 
 /**
  * Сложная (6 баллов)
@@ -203,7 +255,21 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше нуля либо равны нулю.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    val matcheRes = Regex("""[А-Я][а-я]+\s\d+(\.\d+|\d+)""").findAll(description)
+    var result = ""
+    var max = 0.0
+    for (i in matcheRes) {
+        var x = i.value.split(" ")
+        if (x[1].toDouble() > max) {
+            max = x[1].toDouble()
+            result = x[0]
+        }
+    }
+    return result
+
+}
+
 /**
  * Сложная (6 баллов)
  *
@@ -256,24 +322,6 @@ fun fromRoman(roman: String): Int = TODO()
 fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
 
 
-fun coding(input: String): Any {
-    var answer = ""
-    var second = input[0]
-    var count = 0
-    input.forEach {
-        if (it == second) count++
-        else {
-            if (count < 2) {
-                answer += second
-            } else {
-                answer += answer + second + count
-                count = 1
-            }
-            second = it
-        }
-    }
-    return answer
-}
 
 
 
