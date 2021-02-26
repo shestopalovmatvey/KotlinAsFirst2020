@@ -4,6 +4,7 @@ package lesson9.task2
 
 import lesson9.task1.Matrix
 import lesson9.task1.createMatrix
+import java.lang.IllegalStateException
 
 // Все задачи в этом файле требуют наличия реализации интерфейса "Матрица" в Matrix.kt
 
@@ -245,7 +246,85 @@ fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> 
  * 0  4 13  6
  * 3 10 11  8
  */
-fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> = TODO()
+fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> {
+    val move = moves.toMutableList()
+    fun leftMove(i: Int, j: Int): Boolean {
+        if (j > 0) {
+            if (matrix[i, j - 1] == 0) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun rightMove(i: Int, j: Int): Boolean {
+        if (j < matrix.width - 1) {
+            if (matrix[i, j + 1] == 0) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun upMove(i: Int, j: Int): Boolean {
+        if (i > 0) {
+            if (matrix[i - 1, j] == 0) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun downMove(i: Int, j: Int): Boolean {
+        if (i < matrix.height - 1) {
+            if (matrix[i + 1, j] == 0) {
+                return true
+            }
+        }
+        return false
+    }
+
+    while (move.isNotEmpty()) {
+        loop@ for (i in 0 until matrix.height) {
+            for (j in 0 until matrix.width) {
+                if (matrix[i, j] == move[0]) {
+                    if (leftMove(i, j)) {
+                        val x = matrix[i, j]
+                        matrix[i, j] = 0
+                        matrix[i, j - 1] = x
+                        move.removeAt(0)
+                        break@loop
+
+                    }
+                    if (rightMove(i, j)) {
+                        val x = matrix[i, j]
+                        matrix[i, j] = 0
+                        matrix[i, j + 1] = x
+                        move.removeAt(0)
+                        break@loop
+                    }
+                    if (upMove(i, j)) {
+                        val x = matrix[i, j]
+                        matrix[i, j] = 0
+                        matrix[i - 1, j] = x
+                        move.removeAt(0)
+                        break@loop
+                    }
+                    if (downMove(i, j)) {
+                        val x = matrix[i, j]
+                        matrix[i, j] = 0
+                        matrix[i + 1, j] = x
+                        move.removeAt(0)
+                        break@loop
+                    } else {
+                        throw IllegalStateException()
+                    }
+                }
+            }
+        }
+    }
+    return matrix
+}
 
 /**
  * Очень сложная (32 балла)

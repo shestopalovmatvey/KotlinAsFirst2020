@@ -2,11 +2,18 @@
 
 package lesson8.task2
 
+import java.lang.IllegalArgumentException
+
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
  * Поэтому, обе координаты клетки (горизонталь row, вертикаль column) могут находиться в пределах от 1 до 8.
  * Горизонтали нумеруются снизу вверх, вертикали слева направо.
  */
+fun main() {
+    var start = Square(3, 1)
+    var end = Square(6, 3)
+    print(rookTrajectory(start, end))
+}
 data class Square(val column: Int, val row: Int) {
     /**
      * Пример
@@ -22,7 +29,15 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
-    fun notation(): String = TODO()
+    fun notation(): String {
+        val map =
+            mutableMapOf<Int, String>(1 to "a", 2 to "b", 3 to "c", 4 to "d", 5 to "e", 6 to "f", 7 to "g", 8 to "h")
+        return if (inside()) {
+            "${map[column]}$row"
+        } else {
+            ""
+        }
+    }
 }
 
 /**
@@ -32,7 +47,16 @@ data class Square(val column: Int, val row: Int) {
  * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
  * Если нотация некорректна, бросить IllegalArgumentException
  */
-fun square(notation: String): Square = TODO()
+fun square(notation: String): Square {
+    val map =
+        mutableMapOf<String, Int>("a" to 1, "b" to 2, "c" to 3, "d" to 4, "e" to 5, "f" to 6, "g" to 7, "h" to 8)
+    val reg = Regex("""[a-h][1-8]""")
+    if (reg.matches(notation)) {
+        return Square(map[notation[0].toString()]!!.toInt(), notation[1].toString().toInt())
+    } else {
+        throw IllegalArgumentException()
+    }
+}
 
 /**
  * Простая (2 балла)
@@ -57,7 +81,14 @@ fun square(notation: String): Square = TODO()
  * Пример: rookMoveNumber(Square(3, 1), Square(6, 3)) = 2
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
-fun rookMoveNumber(start: Square, end: Square): Int = TODO()
+fun rookMoveNumber(start: Square, end: Square): Int {
+    if (!start.inside() || !end.inside()) {
+        throw IllegalArgumentException()
+    }
+    if (start == end) return 0
+    return if (start.column == end.column || start.row == end.row) 1
+    else 2
+}
 
 /**
  * Средняя (3 балла)
@@ -73,7 +104,25 @@ fun rookMoveNumber(start: Square, end: Square): Int = TODO()
  *          rookTrajectory(Square(3, 5), Square(8, 5)) = listOf(Square(3, 5), Square(8, 5))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun rookTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun rookTrajectory(start: Square, end: Square): List<Square> {
+    val res = mutableListOf<Square>()
+    if (!start.inside() || !end.inside()) {
+        throw IllegalArgumentException()
+    }
+    if (start == end) {
+        res.add(start)
+        return res
+    }
+    if (start.column == end.column || start.row == end.row) {
+        res.add(start)
+        res.add(end)
+        return res
+    }
+    res.add(start)
+    res.add(Square(start.column, end.row))
+    res.add(end)
+    return res
+}
 
 /**
  * Простая (2 балла)
