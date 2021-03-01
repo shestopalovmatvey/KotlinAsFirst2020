@@ -2,7 +2,9 @@
 
 package lesson8.task2
 
+import lesson4.task1.abs
 import java.lang.IllegalArgumentException
+import kotlin.math.abs
 
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
@@ -10,10 +12,11 @@ import java.lang.IllegalArgumentException
  * Горизонтали нумеруются снизу вверх, вертикали слева направо.
  */
 fun main() {
-    var start = Square(3, 1)
-    var end = Square(6, 3)
-    print(rookTrajectory(start, end))
+    val x = Square(1, 1)
+    val y = Square(4, 2)
+    print(bishopTrajectory(x, y))
 }
+
 data class Square(val column: Int, val row: Int) {
     /**
      * Пример
@@ -147,7 +150,15 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
  * Примеры: bishopMoveNumber(Square(3, 1), Square(6, 3)) = -1; bishopMoveNumber(Square(3, 1), Square(3, 7)) = 2.
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
-fun bishopMoveNumber(start: Square, end: Square): Int = TODO()
+fun bishopMoveNumber(start: Square, end: Square): Int {
+    if (!start.inside() || !end.inside()) {
+        throw IllegalArgumentException()
+    }
+    if (start == end) return 0
+    if ((start.row + start.column) % 2 == (end.row + end.column) % 2) return -1
+    return if (abs(start.column - end.column) == abs(start.row - end.row)) 1
+    else 2
+}
 
 /**
  * Сложная (5 баллов)
@@ -167,7 +178,61 @@ fun bishopMoveNumber(start: Square, end: Square): Int = TODO()
  *          bishopTrajectory(Square(1, 3), Square(6, 8)) = listOf(Square(1, 3), Square(6, 8))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun bishopTrajectory(start: Square, end: Square): List<Square> {
+    val res = mutableListOf<Square>()
+    if (start == end) {
+        res.add(start)
+        return res
+    }
+    if (abs(start.column - end.column) == abs(start.row - end.row)) {
+        res.add(start)
+        res.add(end)
+    }
+    if ((start.row + start.column) % 2 == (end.row + end.column) % 2) {
+        if (start.column < end.column) {
+            val list = mutableListOf<Pair<Int, Int>>()
+            var x = end.column
+            var y = end.row
+            while (x > 0 && y < 9) {
+                list.add(x to y )
+                x--
+                y++
+            }
+            x = end.column
+            y = end.row
+            while (x > 0 && y > 0) {
+                list.add(x to y)
+                x--
+                y--
+            }
+            var x1 = start.column
+            var y1 = start.row
+            while (x1 < 9 && y1 < 9) {
+                if ((x1 to y1) in list) {
+                    res.add(start)
+                    res.add(Square(x1, y1))
+                    res.add((end))
+                    return res
+                }
+                x1++
+                y1++
+            }
+            x1 = start.column
+            y1 = start.row
+            while (x1 > 0 && y1 > 0) {
+                if ((x1 to y1) in list) {
+                    res.add(start)
+                    res.add(Square(x1, y1))
+                    res.add((end))
+                    return res
+                }
+                x1++
+                y1--
+            }
+        }
+    }
+    return res
+}
 
 /**
  * Средняя (3 балла)
