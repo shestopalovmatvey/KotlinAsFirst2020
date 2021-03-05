@@ -3,7 +3,6 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
-import java.lang.StringBuilder
 import kotlin.math.sqrt
 
 // Урок 4: списки
@@ -123,11 +122,12 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var sum = 0.0
-    for (elements in v){
+    for (elements in v) {
         sum = elements * elements
     }
     return sum
 }
+
 /**
  * Простая (2 балла)
  *
@@ -147,7 +147,7 @@ fun mean(list: List<Double>): Double =
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     val centr = mean(list)
-    for ((index, elements) in list.withIndex()){
+    for ((index, elements) in list.withIndex()) {
         list[index] = elements - centr
     }
     return list
@@ -164,6 +164,7 @@ fun times(a: List<Int>, b: List<Int>): Int {
     val c = a.zip(b) { a, b -> a * b }.toList()
     return c.sum()
 }
+
 /**
  * Средняя (3 балла)
  *
@@ -185,11 +186,12 @@ fun polynom(p: List<Int>, x: Int): Int = TODO()
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun accumulate(list: MutableList<Int>): MutableList<Int> {
-    for (i in 1 until list.size){
+    for (i in 1 until list.size) {
         list[i] += list[i - 1]
     }
     return list
 }
+
 /**
  * Средняя (3 балла)
  *
@@ -200,10 +202,10 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> {
 fun factorize(n: Int): List<Int> {
     var n = n
     var number = 2
-    var listok = listOf<Int>()
-    while (n > 1){
-        if (n % number == 0){
-            listok += number
+    val listok = mutableListOf<Int>()
+    while (n > 1) {
+        if (n % number == 0) {
+            listok.add(number)
             n /= number
         } else {
             number++
@@ -211,6 +213,7 @@ fun factorize(n: Int): List<Int> {
     }
     return listok.sorted()
 }
+
 /**
  * Сложная (4 балла)
  *
@@ -277,19 +280,20 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
 fun roman(n: Int): String {
     var number = n
     val listDigits = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
-    val listSimb = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
+    val listSim = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
     var str: String = ""
-    while (n > 0){
-        for (index in listDigits.indices - 1){
-            if(number - listDigits[index] >= 0){
+    while (n > 0) {
+        for (index in listDigits.indices - 1) {
+            if (number - listDigits[index] >= 0) {
                 number -= listDigits[index]
-                str += listSimb[index]
+                str += listSim[index]
                 break
             }
         }
     }
     return str
 }
+
 /**
  * Очень сложная (7 баллов)
  *
@@ -325,9 +329,9 @@ fun russian(n: Int): String {
         } else line += russian(number / 1000)
         line += ' '
 
-        if (number / 1000 % 10 == 1 && number / 10000 % 10 != 1) line += listOfThousands[0]
-        else if (number / 1000 % 10 in 2..4 && number / 10000 % 10 != 1) line += listOfThousands[1]
-        else line += listOfThousands[2]
+        line += if (number / 1000 % 10 == 1 && number / 10000 % 10 != 1) listOfThousands[0]
+        else if (number / 1000 % 10 in 2..4 && number / 10000 % 10 != 1) listOfThousands[1]
+        else listOfThousands[2]
         line += ' '
 
         number %= 1000

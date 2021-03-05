@@ -2,8 +2,6 @@
 
 package lesson3.task1
 
-import org.junit.Test
-import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.sqrt
 
@@ -81,10 +79,9 @@ fun digitNumber(n: Int): Int {
     do {
         n /= 10
         digit++
-    }while (abs(n) > 0)
+    } while (abs(n) > 0)
     return digit
 }
-
 
 
 /**
@@ -103,7 +100,7 @@ fun fib(n: Int): Int = TODO()
  */
 fun minDivisor(n: Int): Int {
     var minDiv = 2
-    while (n > minDiv){
+    while (n > minDiv) {
         if (n % minDiv == 0) {
             return minDiv
         }
@@ -139,9 +136,9 @@ fun maxDivisor(n: Int): Int = TODO()
 fun collatzSteps(x: Int): Int {
     var x = x
     var s = 0
-    while (x != 1){
+    while (x != 1) {
         s++
-        if (x % 2 == 0){
+        if (x % 2 == 0) {
             x /= 2
         } else {
             x = 3 * x + 1
@@ -196,10 +193,9 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  */
 fun revert(n: Int): Int {
     var n = n
-    var number = 0
     var n2 = 0
-    while (n > 0){
-        number = n % 10
+    while (n > 0) {
+        val number = n % 10
         n /= 10
         n2 *= 10
         n2 += number
@@ -219,7 +215,6 @@ fun revert(n: Int): Int {
  */
 fun isPalindrome(n: Int): Boolean =
     revert(n) == n
-
 
 
 /**
@@ -252,7 +247,6 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
 fun sin(x: Double, eps: Double): Double = TODO()
-
 
 
 /**
@@ -301,9 +295,9 @@ fun fibSequenceDigit(n: Int): Int {
     }
 
     var fibNumber = fib(number)
-    for (i in 1..count-n){
+    for (i in 1..count - n) {
         fibNumber /= 10
     }
-    return fibNumber%10
+    return fibNumber % 10
 }
 
