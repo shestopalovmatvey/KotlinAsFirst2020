@@ -12,8 +12,8 @@ import kotlin.math.abs
  * Горизонтали нумеруются снизу вверх, вертикали слева направо.
  */
 fun main() {
-    val x = Square(1, 1)
-    val y = Square(4, 2)
+    val x = Square(6, 5)
+    val y = Square(6, 1)
     print(bishopTrajectory(x, y))
 }
 
@@ -155,7 +155,7 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
         throw IllegalArgumentException()
     }
     if (start == end) return 0
-    if ((start.row + start.column) % 2 == (end.row + end.column) % 2) return -1
+    if ((start.row + start.column) % 2 != (end.row + end.column) % 2) return -1
     return if (abs(start.column - end.column) == abs(start.row - end.row)) 1
     else 2
 }
@@ -187,14 +187,16 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
     if (abs(start.column - end.column) == abs(start.row - end.row)) {
         res.add(start)
         res.add(end)
+        return res
     }
-    if ((start.row + start.column) % 2 == (end.row + end.column) % 2) {
+    if ((start.row + start.column) % 2 != (end.row + end.column) % 2) return res
+    else {
         if (start.column < end.column) {
             val list = mutableListOf<Pair<Int, Int>>()
             var x = end.column
             var y = end.row
             while (x > 0 && y < 9) {
-                list.add(x to y )
+                list.add(x to y)
                 x--
                 y++
             }
@@ -228,6 +230,132 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
                 }
                 x1++
                 y1--
+            }
+        }
+        if (start.column > end.column) {
+            val list1 = mutableListOf<Pair<Int, Int>>()
+            var z = start.column
+            var l = start.row
+            while (z < 9 && l < 9) {
+                list1.add(z to l)
+                z++
+                l++
+            }
+            z = start.column
+            l = start.row
+            while (z < 9 && l > 0) {
+                list1.add(z to l)
+                z++
+                l--
+            }
+            var z1 = end.column
+            var l1 = end.row
+            while (z1 > 0 && l1 < 9) {
+                if ((z1 to l1) in list1) {
+                    res.add(start)
+                    res.add(Square(z1, l1))
+                    res.add(end)
+                    return res
+                }
+                z1--
+                l1++
+            }
+            z1 = end.column
+            l1 = end.row
+            while (z1 > 0 && l1 > 0) {
+                if ((z1 to l1) in list1) {
+                    res.add(start)
+                    res.add(Square(z1, l1))
+                    res.add(end)
+                    return res
+                }
+                z1--
+                l1--
+            }
+        } else {
+            if ((start.row + start.column) % 2 != (end.row + end.column) % 2) return res
+            else {
+                if (start.row > end.row) {
+                    val list = mutableListOf<Pair<Int, Int>>()
+                    var x = start.column
+                    var y = start.row
+                    while (x < 9 && y > 0) {
+                        list.add(x to y)
+                        x++
+                        y--
+                    }
+                    x = start.column
+                    y = start.row
+                    while (x > 0 && y > 0) {
+                        list.add(x to y)
+                        x--
+                        y--
+                    }
+                    var x1 = end.column
+                    var y1 = end.row
+                    while (x1 < 9 && y1 < 9) {
+                        if ((x1 to y1) in list) {
+                            res.add(start)
+                            res.add(Square(x1, y1))
+                            res.add(end)
+                            return res
+                        }
+                        x1++
+                        y1++
+                    }
+                    x1 = end.column
+                    y1 = end.row
+                    while (x1 > 0 && y1 < 9) {
+                        if ((x1 to y1) in list) {
+                            res.add(start)
+                            res.add(Square(x1, y1))
+                            res.add(end)
+                            return res
+                        }
+                        x1--
+                        y1++
+                    }
+                } else {
+                    val list = mutableListOf<Pair<Int, Int>>()
+                    var z = end.column
+                    var l = end.row
+                    while (z < 9 && l > 0) {
+                        list.add(z to l)
+                        z++
+                        l--
+                    }
+                    z = end.column
+                    l = end.row
+                    while (z > 0 && l > 0) {
+                        list.add(z to l)
+                        z--
+                        l--
+                    }
+                    var z1 = start.column
+                    var l1 = start.row
+                    while (z1 < 9 && l1 < 9) {
+                        if ((z1 to l1) in list) {
+                            res.add(start)
+                            res.add(Square(z1, l1))
+                            res.add(end)
+                            return res
+                        }
+                        z1++
+                        l1++
+                    }
+                    z1 = start.column
+                    l1 = start.row
+                    while (z1 > 0 && l1 < 9) {
+                        if ((z1 to l1) in list) {
+                            res.add(start)
+                            res.add(Square(z1, l1))
+                            res.add(end)
+                            return res
+                        }
+                        z1--
+                        l1++
+                    }
+                }
             }
         }
     }

@@ -30,7 +30,7 @@ internal class UnsignedBigIntegerTest {
     fun times() {
         assertEquals(
             UnsignedBigInteger("18446744073709551616"),
-            UnsignedBigInteger("4294967296‬") * UnsignedBigInteger("4294967296‬")
+            UnsignedBigInteger("4294967296") * UnsignedBigInteger("4294967296")
         )
     }
 

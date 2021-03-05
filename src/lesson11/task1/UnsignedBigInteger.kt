@@ -15,9 +15,61 @@ import java.lang.NumberFormatException
  * сравнение на равенство и неравенство
  */
 fun main() {
-    val x = UnsignedBigInteger("965")
-    val z = UnsignedBigInteger(10)
-    print(z * x)
+    var x = UnsignedBigInteger("0")
+    var z = UnsignedBigInteger("42")
+    val y = 42
+    var l = 0
+    for (i in 1..42) {
+        x = x.plus(z)
+        l += y
+        println("$x $l")
+    }
+    print(x * z)
+
+}
+
+fun plus3(a: String, b: String): String {
+    var x = mutableListOf<Int>()
+    for (i in a) {
+        x.add(i.toString().toInt())
+    }
+    var y = mutableListOf<Int>()
+    for (i in b) {
+        y.add(i.toString().toInt())
+    }
+    val answer = mutableListOf<Int>()
+    if (y.size > x.size) {
+        val l = x
+        x = y
+        y = l
+    }
+    for (i in 1..x.size + 1) {
+        answer.add(0)
+    }
+    var currentY = y.lastIndex
+    var currentAnswer = answer.lastIndex
+    var currentX = x.lastIndex
+    while (currentY >= 0) {
+        answer[currentAnswer] = (answer[currentAnswer] + x[currentX] + y[currentY]) % 10
+        answer[currentAnswer - 1] += (x[currentX] + y[currentY]) / 10
+        currentY--
+        currentX--
+        currentAnswer--
+    }
+    while (currentX >= 0) {
+        answer[currentAnswer - 1] = answer[currentAnswer - 1] + (answer[currentAnswer] + x[currentX]) / 10
+        answer[currentAnswer] = (answer[currentAnswer] + x[currentX]) % 10
+        currentX--
+        currentAnswer--
+    }
+    var str = ""
+    if (answer[0] == 0) {
+        answer.removeAt(0)
+    }
+    for (i in answer) {
+        str += i
+    }
+    return str
 }
 
 class UnsignedBigInteger : Comparable<UnsignedBigInteger> {
@@ -60,26 +112,28 @@ class UnsignedBigInteger : Comparable<UnsignedBigInteger> {
         }
         var currentY = y.lastIndex
         var currentAnswer = answer.lastIndex
-        for (i in x.indices.reversed()) {
-            if (currentY >= 0) {
-                answer[currentAnswer] = (x[i] + y[currentY] + answer[currentAnswer]) % 10
-                answer[currentAnswer - 1] = (x[i] + y[currentY] + answer[currentAnswer - 1]) / 10
-            } else {
-                answer[currentAnswer] = (x[i] + answer[currentAnswer]) % 10
-            }
+        var currentX = x.lastIndex
+        while (currentY >= 0) {
+            answer[currentAnswer] = (answer[currentAnswer] + x[currentX] + y[currentY]) % 10
+            answer[currentAnswer - 1] += (x[currentX] + y[currentY]) / 10
             currentY--
+            currentX--
             currentAnswer--
         }
-
-        var l = ""
-        for (i in answer.indices) {
-            if (answer[0] == 0 && i == 0) {
-                continue
-            } else {
-                l += answer[i]
-            }
+        while (currentX >= 0) {
+            answer[currentAnswer - 1] = answer[currentAnswer - 1] + (answer[currentAnswer] + x[currentX]) / 10
+            answer[currentAnswer] = (answer[currentAnswer] + x[currentX]) % 10
+            currentX--
+            currentAnswer--
         }
-        return UnsignedBigInteger(l)
+        var str = ""
+        if (answer[0] == 0) {
+            answer.removeAt(0)
+        }
+        for (i in answer) {
+            str += i
+        }
+        return UnsignedBigInteger(str)
     }
 
     /**
@@ -93,7 +147,7 @@ class UnsignedBigInteger : Comparable<UnsignedBigInteger> {
      * Умножение
      *
      */
-    fun times2(x: Int): UnsignedBigInteger {
+    private fun generation(x: Int): UnsignedBigInteger {
         var z = UnsignedBigInteger(0)
         for (i in 1..x) {
             z += this
@@ -105,7 +159,7 @@ class UnsignedBigInteger : Comparable<UnsignedBigInteger> {
         var x = UnsignedBigInteger(0)
         var rank = 1
         for (i in other.number.reversed()) {
-            x += this.times2(i.toString().toInt()).times2(rank)
+            x += this.generation(i.toString().toInt()) + this.generation(rank)
             rank *= 10
         }
         return x
