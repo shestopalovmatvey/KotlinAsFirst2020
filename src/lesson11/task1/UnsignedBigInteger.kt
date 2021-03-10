@@ -14,11 +14,6 @@ import java.lang.NumberFormatException
  * преобразование в строку/из строки, преобразование в целое/из целого,
  * сравнение на равенство и неравенство
  */
-fun main() {
-    var x = UnsignedBigInteger("18446744073709551616")
-    var y = UnsignedBigInteger("4294967296")
-    print(x % y)
-}
 
 class UnsignedBigInteger : Comparable<UnsignedBigInteger> {
     lateinit var number: String
@@ -184,7 +179,6 @@ class UnsignedBigInteger : Comparable<UnsignedBigInteger> {
         if (count < other) return count
         while (count >= other) {
             count -= other
-            println("$count-")
         }
         return count
     }

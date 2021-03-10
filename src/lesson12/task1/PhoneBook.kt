@@ -50,7 +50,7 @@ class PhoneBook {
         }
     }
 
-    fun containsPhone(phone: String): Boolean {
+    private fun containsPhone(phone: String): Boolean {
         for ((key) in phoneList) {
             if (phoneList[key]?.contains(phone)!!) {
                 return true
@@ -67,15 +67,20 @@ class PhoneBook {
      * либо такой номер телефона зарегистрирован за другим человеком.
      */
     fun addPhone(name: String, phone: String): Boolean {
-        return if (name !in phoneList) {
-            false
-        } else if (phoneList[name]?.contains(phone)!!) {
-            false
-        } else if (containsPhone(phone)) {
-            false
-        } else {
-            phoneList[name]?.add(phone)
-            true
+        return when {
+            name !in phoneList -> {
+                false
+            }
+            phoneList[name]?.contains(phone)!! -> {
+                false
+            }
+            containsPhone(phone) -> {
+                false
+            }
+            else -> {
+                phoneList[name]?.add(phone)
+                true
+            }
         }
     }
 
@@ -86,10 +91,10 @@ class PhoneBook {
      * либо у него не было такого номера телефона.
      */
     fun removePhone(name: String, phone: String): Boolean {
-        return if (name !in phoneList || phone !in phoneList.values) {
+        return if (name !in phoneList || !phoneList[name]?.contains(phone)!!) {
             false
         } else {
-            TODO()
+            phoneList[name]?.remove(phone)!!
         }
     }
 
@@ -110,7 +115,12 @@ class PhoneBook {
      * Если такого номера нет в книге, вернуть null.
      */
     fun humanByPhone(phone: String): String? {
-        TODO()
+        for ((key) in phoneList) {
+            if (phoneList[key]?.contains(phone)!!) {
+                return key
+            }
+        }
+        return null
     }
 
     /**
@@ -118,5 +128,8 @@ class PhoneBook {
      * и каждому человеку соответствует одинаковый набор телефонов.
      * Порядок людей / порядок телефонов в книге не должен иметь значения.
      */
-    override fun equals(other: Any?): Boolean = TODO()
+    override fun equals(other: Any?): Boolean = other is PhoneBook && other.phoneList == phoneList
+
+    override fun hashCode(): Int = phoneList.hashCode()
+
 }
