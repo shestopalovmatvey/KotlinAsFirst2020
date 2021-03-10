@@ -12,8 +12,8 @@ import kotlin.math.abs
  * Горизонтали нумеруются снизу вверх, вертикали слева направо.
  */
 fun main() {
-    val x = Square(6, 5)
-    val y = Square(6, 1)
+    val x = Square(4, 1)
+    val y = Square(2, 1)
     print(bishopTrajectory(x, y))
 }
 
@@ -236,16 +236,16 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
             val list1 = mutableListOf<Pair<Int, Int>>()
             var z = start.column
             var l = start.row
-            while (z < 9 && l < 9) {
+            while (z > 0 && l < 9) {
                 list1.add(z to l)
-                z++
+                z--
                 l++
             }
             z = start.column
             l = start.row
-            while (z < 9 && l > 0) {
+            while (z > 0 && l > 0) {
                 list1.add(z to l)
-                z++
+                z--
                 l--
             }
             var z1 = end.column
