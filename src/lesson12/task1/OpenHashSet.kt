@@ -25,28 +25,81 @@ class OpenHashSet<T>(val capacity: Int) {
     /**
      * Число элементов в хеш-таблице
      */
-    val size: Int get() = TODO()
+    val size: Int
+        get() {
+            var count = 0
+            for (i in elements.indices) {
+                if (elements[i] != null) {
+                    count++
+                }
+            }
+            return count
+        }
 
     /**
      * Признак пустоты
      */
-    fun isEmpty(): Boolean = TODO()
+    fun isEmpty(): Boolean {
+        for (i in elements) {
+            if (i != null) {
+                return false
+            }
+        }
+        return true
+    }
 
     /**
      * Добавление элемента.
      * Вернуть true, если элемент был успешно добавлен,
      * или false, если такой элемент уже был в таблице, или превышена вместимость таблицы.
      */
-    fun add(element: T): Boolean = TODO()
+    fun add(element: T): Boolean {
+        for (i in elements.indices) {
+            if (elements[i] == element) {
+                return false
+            }
+            if (elements[i] == null) {
+                elements[i] = element
+                return true
+            }
+        }
+        return false
+    }
+
 
     /**
      * Проверка, входит ли заданный элемент в хеш-таблицу
      */
-    operator fun contains(element: T): Boolean = TODO()
+    operator fun contains(element: T): Boolean {
+        for (i in elements.indices) {
+            if (elements[i] == element) {
+                return true
+            }
+        }
+        return false
+    }
+
 
     /**
      * Таблицы равны, если в них одинаковое количество элементов,
      * и любой элемент из второй таблицы входит также и в первую
      */
-    override fun equals(other: Any?): Boolean = TODO()
+    override fun equals(other: Any?): Boolean {
+        if (other !is OpenHashSet<*>) {
+            return false
+        }
+        for (i in other.elements) {
+            if (i !in elements && i != null) {
+                return false
+            }
+        }
+        for (i in elements) {
+            if (i !in other.elements && i != null) {
+                return false
+            }
+        }
+        return true
+    }
+
+    override fun hashCode(): Int = elements.hashCode()
 }
