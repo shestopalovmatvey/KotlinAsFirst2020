@@ -2,7 +2,9 @@
 
 package lesson12.task1
 
+import lesson4.task1.abs
 import java.lang.IllegalStateException
+import kotlin.math.abs
 
 /**
  * Класс "табличная функция".
@@ -73,7 +75,7 @@ class TableFunction {
         var min: Double = Double.MAX_VALUE
         var answer = Pair(1.0, 1.0)
         for ((key) in map) {
-            if (x - key < min && x - key > 0) {
+            if (abs(x - key) < min) {
                 min = x - key
             }
         }
