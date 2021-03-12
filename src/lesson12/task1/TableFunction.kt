@@ -45,13 +45,12 @@ class TableFunction {
      * Вернуть true, если пара была удалена.
      */
     fun remove(x: Double): Boolean {
-        for ((key, value) in map) {
-            if (key == x) {
-                map.remove(key, value)
-                return true
-            }
+        return if (map.remove(x) != null) {
+            map.remove(x)
+            true
+        } else {
+            false
         }
-        return false
     }
 
     /**
@@ -106,15 +105,5 @@ class TableFunction {
      * Таблицы равны, если в них одинаковое количество пар,
      * и любая пара из второй таблицы входит также и в первую
      */
-    override fun equals(other: Any?): Boolean {
-        if (other !is TableFunction || other.size != map.size) {
-            return false
-        }
-        for ((key) in map) {
-            if (key !in other.map) {
-                return false
-            }
-        }
-        return true
-    }
+    override fun equals(other: Any?): Boolean = other is TableFunction && map == other.map
 }

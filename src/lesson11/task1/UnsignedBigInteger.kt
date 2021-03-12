@@ -21,7 +21,7 @@ fun main() {
 }
 
 class UnsignedBigInteger : Comparable<UnsignedBigInteger> {
-    lateinit var number: String
+    private val number: String
 
     /**
      * Конструктор из строки
@@ -49,14 +49,11 @@ class UnsignedBigInteger : Comparable<UnsignedBigInteger> {
         for (i in other.number) {
             y.add(i.toString().toInt())
         }
-        val answer = mutableListOf<Int>()
+        val answer = MutableList(x.size + 1) { 0 }
         if (y.size > x.size) {
             val l = x
             x = y
             y = l
-        }
-        for (i in 1..x.size + 1) {
-            answer.add(0)
         }
         var currentY = y.lastIndex
         var currentAnswer = answer.lastIndex
@@ -93,10 +90,7 @@ class UnsignedBigInteger : Comparable<UnsignedBigInteger> {
         }
         val x = number.toMutableList().map { it.toString().toInt() }.toMutableList()
         val y = other.number.toMutableList().map { it.toString().toInt() }.toMutableList()
-        val res = mutableListOf<Int>()
-        x.forEach {
-            res.add(0)
-        }
+        val res = MutableList(x.size) { 0 }
         var currentX = x.lastIndex
         var currentY = y.lastIndex
         var currentRes = res.lastIndex
@@ -153,10 +147,7 @@ class UnsignedBigInteger : Comparable<UnsignedBigInteger> {
     operator fun times(other: UnsignedBigInteger): UnsignedBigInteger {
         val x = number.toMutableList().map { it.toString().toInt() }.toMutableList()
         val y = other.number.toMutableList().map { it.toString().toInt() }.toMutableList()
-        val answer = mutableListOf<Int>()
-        for (i in 1..(x.size + y.size)) {
-            answer.add(0)
-        }
+        val answer = MutableList(x.size + y.size) { 0 }
         var currentY = y.lastIndex
         var shift = 0
         while (currentY >= 0) {
@@ -208,17 +199,9 @@ class UnsignedBigInteger : Comparable<UnsignedBigInteger> {
     /**
      * Сравнение на равенство (по контракту Any.equals)
      */
-    override fun equals(other: Any?): Boolean {
-        if (other !is UnsignedBigInteger || number != other.number) {
-            return false
-        }
-        for (i in 0..number.lastIndex) {
-            if (number[i] != other.number[i]) {
-                return false
-            }
-        }
-        return true
-    }
+    override fun equals(other: Any?): Boolean = other is UnsignedBigInteger && other.number == number
+
+    override fun hashCode(): Int = number.hashCode()
 
     /**
      * Сравнение на больше/меньше (по контракту Comparable.compareTo)
@@ -257,5 +240,4 @@ class UnsignedBigInteger : Comparable<UnsignedBigInteger> {
             throw ArithmeticException()
         }
     }
-
 }
