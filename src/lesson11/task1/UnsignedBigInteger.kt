@@ -14,6 +14,11 @@ import java.lang.NumberFormatException
  * преобразование в строку/из строки, преобразование в целое/из целого,
  * сравнение на равенство и неравенство
  */
+fun main() {
+    val x = UnsignedBigInteger("10")
+    val z = UnsignedBigInteger("2")
+    print(x / z)
+}
 
 class UnsignedBigInteger : Comparable<UnsignedBigInteger> {
     lateinit var number: String
@@ -124,6 +129,20 @@ class UnsignedBigInteger : Comparable<UnsignedBigInteger> {
         if (str == "") {
             str = "0"
         }
+//        var str = ""
+//        var start = true
+//        for (i in res.lastIndex downTo 0) {
+//            if (res[i] < 0) {
+//                res[i] += 10
+//                res[i - 1]--
+//            }
+//            str = res[i].toString() + str
+//        }
+//        for (i in str) {
+//            if (i == '0' && start) {
+//
+//            }
+//        }
         return UnsignedBigInteger(str)
     }
 
@@ -168,7 +187,10 @@ class UnsignedBigInteger : Comparable<UnsignedBigInteger> {
     /**
      * Деление
      */
-    operator fun div(other: UnsignedBigInteger): UnsignedBigInteger = TODO()
+    operator fun div(other: UnsignedBigInteger): UnsignedBigInteger {
+        TODO()
+    }
+
 
     /**
      * Взятие остатка
@@ -202,19 +224,19 @@ class UnsignedBigInteger : Comparable<UnsignedBigInteger> {
      * Сравнение на больше/меньше (по контракту Comparable.compareTo)
      */
     override fun compareTo(other: UnsignedBigInteger): Int {
-        val num = mutableListOf<String>()
-        val oth = mutableListOf<String>()
+        val num = mutableListOf<Int>()
+        val oth = mutableListOf<Int>()
         for (i in number) {
-            num.add(i.toString())
+            num.add(i.toString().toInt())
         }
         for (i in other.number) {
-            oth.add(i.toString())
+            oth.add(i.toString().toInt())
         }
         if (num.size > oth.size) return 1
         if (num.size < oth.size) return -1
         for (i in num.indices) {
-            if (num[i].toInt() > oth[i].toInt()) return 1
-            if (num[i].toInt() < oth[i].toInt()) return -1
+            if (num[i] > oth[i]) return 1
+            if (num[i] < oth[i]) return -1
         }
         return 0
     }

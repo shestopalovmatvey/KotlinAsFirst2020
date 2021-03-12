@@ -79,7 +79,6 @@ class OpenHashSet<T>(val capacity: Int) {
         return false
     }
 
-
     /**
      * Таблицы равны, если в них одинаковое количество элементов,
      * и любой элемент из второй таблицы входит также и в первую
@@ -101,5 +100,10 @@ class OpenHashSet<T>(val capacity: Int) {
         return true
     }
 
-    override fun hashCode(): Int = elements.hashCode()
+    override fun hashCode(): Int {
+        var result = capacity
+        result = 31 * result + elements.contentHashCode()
+        return result
+    }
+
 }

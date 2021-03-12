@@ -69,12 +69,7 @@ class Complex(val re: Double, val im: Double) {
     /**
      * Сравнение на равенство
      */
-    override fun equals(other: Any?): Boolean {
-        if (other is Complex && re == other.re && other.im == im) {
-            return true
-        }
-        return false
-    }
+    override fun equals(other: Any?): Boolean = other is Complex && other.re == re && other.im == im
 
     /**
      * Преобразование в строку
